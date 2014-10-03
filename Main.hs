@@ -13,8 +13,11 @@ main :: IO ()
 main = do
 	m <- readBiblioFile "mybibdb.bib"
 	s <- readCSLFile "bibtex.csl"
+	let result' = processBibliography procOpts s m 
+	putStrLn $ unlines $ map (renderPlainStrict) result'
+
 	let result = citeproc procOpts s m $ [cites]
-	putStrLn . unlines . map (renderPlainStrict) . citations $ result
+	putStrLn . unlines . map (renderPlainStrict) . bibliography $ result
 	mainLoop []
 
 mainLoop :: [Reference] -> IO ()
