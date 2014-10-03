@@ -1,5 +1,7 @@
 module Main where
+import ReferenceDatabase
 import Text.EditDistance
+import Text.CSL
 import Text.CSL.Input.Identifier.Internal as Internal
 import Text.CSL.Input.Identifier
 import Text.CSL.Reference
@@ -8,7 +10,12 @@ import Control.Monad.Trans.Either
 import Control.Monad.State as State
 
 main :: IO ()
-main = mainLoop []	
+main = do
+	m <- readBiblioFile "mybibdb.bib"
+	s <- readCSLFile "bibtex.csl"
+	let result = citeproc procOpts s m $ [cites]
+	putStrLn . unlines . map (renderPlainStrict) . citations $ result
+	mainLoop []
 
 mainLoop :: [Reference] -> IO ()
 mainLoop database = do 
@@ -32,13 +39,22 @@ updateDatabase database lookupResult = case lookupResult of
 				Right ref -> do
 					putStrLn "Adding to database"
 					putStrLn "Database contains:"
-					putStrLn $ show $ map (title) (ref:database)
+					putStrLn $ show (ref:database)
 			 		return (ref:database)
 
 resolveEitherRef s = do
     fn <- getDataFileName "default.db"
     let go = withDatabaseFile fn $ ((runEitherT.resolveEither) s)
     State.evalStateT go (Database Map.empty)
+
+cites :: [Cite]
+cites = [emptyCite { citeId = "Caso2007"
+                    , citeLabel = "page"
+                    , citeLocator = "15"}
+         ,emptyCite { citeId = "Rossato2006"
+                    , citeLabel = "page"
+                    , citeLocator = "10"}
+         ]
 
 -- getSimilar word database threshold = filter (\w -> (approxStringMatch word w) >= threshold) database
 

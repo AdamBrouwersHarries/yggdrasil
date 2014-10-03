@@ -70,12 +70,12 @@
   (major1) == 2 && (major2) <  1 || \
   (major1) == 2 && (major2) == 1 && (minor) <= 3)
 
-/* package parsec-3.1.5 */
-#define VERSION_parsec "3.1.5"
+/* package parsec-3.1.7 */
+#define VERSION_parsec "3.1.7"
 #define MIN_VERSION_parsec(major1,major2,minor) (\
   (major1) <  3 || \
   (major1) == 3 && (major2) <  1 || \
-  (major1) == 3 && (major2) == 1 && (minor) <= 5)
+  (major1) == 3 && (major2) == 1 && (minor) <= 7)
 
 /* package safe-0.3.8 */
 #define VERSION_safe "0.3.8"
@@ -83,13 +83,6 @@
   (major1) <  0 || \
   (major1) == 0 && (major2) <  3 || \
   (major1) == 0 && (major2) == 3 && (minor) <= 8)
-
-/* package threepenny-gui-0.4.2.0 */
-#define VERSION_threepenny_gui "0.4.2.0"
-#define MIN_VERSION_threepenny_gui(major1,major2,minor) (\
-  (major1) <  0 || \
-  (major1) == 0 && (major2) <  4 || \
-  (major1) == 0 && (major2) == 4 && (minor) <= 2)
 
 /* package time-1.4.2 */
 #define VERSION_time "1.4.2"
@@ -112,12 +105,19 @@
   (major1) == 3 && (major2) <  1 || \
   (major1) == 3 && (major2) == 1 && (minor) <= 3)
 
-/* tool gcc-4.2.1 */
-#define TOOL_VERSION_gcc "4.2.1"
+/* tool c2hs-0.18.2 */
+#define TOOL_VERSION_c2hs "0.18.2"
+#define MIN_TOOL_VERSION_c2hs(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  18 || \
+  (major1) == 0 && (major2) == 18 && (minor) <= 2)
+
+/* tool gcc-4.9.1 */
+#define TOOL_VERSION_gcc "4.9.1"
 #define MIN_TOOL_VERSION_gcc(major1,major2,minor) (\
   (major1) <  4 || \
-  (major1) == 4 && (major2) <  2 || \
-  (major1) == 4 && (major2) == 2 && (minor) <= 1)
+  (major1) == 4 && (major2) <  9 || \
+  (major1) == 4 && (major2) == 9 && (minor) <= 1)
 
 /* tool ghc-7.8.3 */
 #define TOOL_VERSION_ghc "7.8.3"
@@ -140,12 +140,12 @@
   (major1) == 2 && (major2) <  14 || \
   (major1) == 2 && (major2) == 14 && (minor) <= 3)
 
-/* tool happy-1.19.4 */
-#define TOOL_VERSION_happy "1.19.4"
+/* tool happy-1.19.3 */
+#define TOOL_VERSION_happy "1.19.3"
 #define MIN_TOOL_VERSION_happy(major1,major2,minor) (\
   (major1) <  1 || \
   (major1) == 1 && (major2) <  19 || \
-  (major1) == 1 && (major2) == 19 && (minor) <= 4)
+  (major1) == 1 && (major2) == 19 && (minor) <= 3)
 
 /* tool hpc-0.67 */
 #define TOOL_VERSION_hpc "0.67"
@@ -160,13 +160,6 @@
   (major1) <  0 || \
   (major1) == 0 && (major2) <  67 || \
   (major1) == 0 && (major2) == 67 && (minor) <= 0)
-
-/* tool hscolour-1.20 */
-#define TOOL_VERSION_hscolour "1.20"
-#define MIN_TOOL_VERSION_hscolour(major1,major2,minor) (\
-  (major1) <  1 || \
-  (major1) == 1 && (major2) <  20 || \
-  (major1) == 1 && (major2) == 20 && (minor) <= 0)
 
 /* tool pkg-config-0.28 */
 #define TOOL_VERSION_pkg_config "0.28"
