@@ -8,17 +8,23 @@ import Text.CSL.Reference
 import qualified Data.Map.Strict as Map
 import Control.Monad.Trans.Either 
 import Control.Monad.State as State
+import Data.Aeson
 
 main :: IO ()
 main = do
 	m <- readBiblioFile "mybibdb.bib"
 	s <- readCSLFile "bibtex.csl"
-	let result' = processBibliography procOpts s m 
-	putStrLn $ unlines $ map (renderPlainStrict) result'
+	--putStrLn $ unlines $ map (show) m
+	let result = processBibliography procOpts s m
+	let procAsBibtex = processBibliography procOpts s 
+	-- the following retains the order 
+	--let result = map (\r -> renderPlainStrict $ head $ procAsBibtex [r]) m
 
-	let result = citeproc procOpts s m $ [cites]
-	putStrLn . unlines . map (renderPlainStrict) . bibliography $ result
+	putStrLn $ foldl (\x y -> x++"\n\n\n\n\n"++y) "" $ map show $ (zip (map (show . refId) m) (map (renderPlainStrict) result))
 	mainLoop []
+
+showRefAsBibtex :: Reference -> ([Reference] -> [[FormattedOutput]]) -> String
+showRefAsBibtex r pf = renderPlainStrict $ head $ pf [r]
 
 mainLoop :: [Reference] -> IO ()
 mainLoop database = do 
@@ -30,7 +36,7 @@ mainLoop database = do
 			putStrLn "Clearing database"
 			mainLoop []
 		else do 
-			lookupResult <- resolveEitherRef ref
+			lookupResult <- resolveEitherDef ref
 			newDb <- updateDatabase database lookupResult
 			mainLoop newDb
 
@@ -42,13 +48,24 @@ updateDatabase database lookupResult = case lookupResult of
 				Right ref -> do
 					putStrLn "Adding to database"
 					putStrLn "Database contains:"
-					putStrLn $ show (ref:database)
+					strDb <- showReferenceList (ref:database) 
+					putStrLn strDb
 			 		return (ref:database)
 
-resolveEitherRef s = do
-    fn <- getDataFileName "default.db"
-    let go = withDatabaseFile fn $ ((runEitherT.resolveEither) s)
-    State.evalStateT go (Database Map.empty)
+			 		--show (ref:database)
+
+showReferenceList :: [Reference] -> IO (String)
+showReferenceList rs = do
+	s <- readCSLFile "bibtex.csl"
+	let result = processBibliography procOpts s rs
+	return $ unlines $ map (renderPlainStrict) result
+
+-- resolveEitherRef s = do
+--     fn <- getDataFileName "default.db"
+--     let go = withDatabaseFile fn $ ((runEitherT.resolveEither) s)
+--     State.evalStateT go (Database Map.empty)
+
+
 
 cites :: [Cite]
 cites = [emptyCite { citeId = "Caso2007"

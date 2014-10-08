@@ -19,7 +19,26 @@ cabal-version:       >=1.10
 executable yggdrasil
   main-is:             Main.hs
   -- other-modules:       ReferenceDatabase.hs
-  other-extensions:    TypeSynonymInstances, FlexibleInstances, RecursiveDo, RecordWildCards, CPP, ViewPatterns, PackageImports
-  build-depends:       base >=4.7 && <4.8, edit-distance >=0.2 && <0.3, time >=1.4 && <1.5, containers >=0.5 && <0.6, safe >=0.3 && <0.4, filepath >=1.3 && <1.4, array >=0.5 && <0.6, directory >=1.2 && <1.3, parsec >=3.1 && <3.2, transformers >=0.3 && <0.4, citation-resolve >=0.4 && <0.5, citeproc-hs >=0.3 && <0.4, either >= 4.3 && < 4.4, mtl >=2.1 && <2.2
+  other-extensions:     TypeSynonymInstances, FlexibleInstances, RecursiveDo, RecordWildCards, CPP, ViewPatterns, PackageImports
+  build-depends:        base >=4.7 && <4.8, 
+                        edit-distance, 
+                        time, 
+                        containers, 
+                        safe, 
+                        filepath, 
+                        array, 
+                        directory, 
+                        parsec, 
+                        transformers, 
+                        citation-resolve >= 0.4.3 && <0.5,
+                        citeproc-hs, 
+                        either, 
+                        mtl, 
+                        aeson, 
+                        hexpat,
+                        file-embed,
+                        bytestring,
+                        template-haskell,
+                        text
   -- hs-source-dirs:      
   default-language:    Haskell2010
