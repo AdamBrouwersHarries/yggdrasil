@@ -2,7 +2,7 @@
 {-# LANGUAGE QuasiQuotes #-}
 
 module ReferenceDatabase where
-
+import VersionedFileFormat
 import TH (litFile)
 import Text.EditDistance
 import Text.CSL.Reference
@@ -17,30 +17,21 @@ import qualified Data.ByteString.Lazy.Char8 as L
 import qualified Data.ByteString
 
 
-
-
 -- overall database entry unifing biblography data, and reading metadata
-data RDBEntry = RDBEntry {
-	dbID :: Int, -- a database ID for fast matching when searching for references
-	refID :: String, -- a bibtex ID for bibliographic referencing
-	bibEntry :: Reference -- a bibtex entry for full paper data
+data DBEntry = DBEntry {
+	refID :: String, -- a bibtex ID for bibliographic referencing & indexing
+	inCitations :: [String], -- List of bibtex IDs of inward citations/references
+	outCitations :: [String], -- List of bibtex IDs of outward citations/references
+	alreadyRead :: Bool, -- have I read the paper?
+	notes :: PaperNotes -- any notes about the paper, in LaTeX format
 }
 
--- and a type for holding the database
-type RefDB = [RDBEntry] 
-
-data BibMetadata = BibMetadata {
-	inCitations :: [RDBEntry],
-	outCitations :: [RDBEntry],
-	alreadyRead :: Bool,
-	notes :: String
+data PaperNotes = PaperNotes {
+	notes :: String,
+	context :: String,
+	keyContribution :: String,
+	criticalReflection :: String,
 }
-
-emptyDB :: RefDB
-emptyDB = []
-
-paperName :: RDBEntry -> String
-paperName r = title $ bibEntry r
 
 matchReferences :: Reference -> Reference -> Float -> Bool
 matchReferences r1 r2 t | r1 == r2 = True
