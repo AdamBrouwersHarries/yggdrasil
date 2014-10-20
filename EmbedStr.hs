@@ -16,9 +16,6 @@ import qualified Data.ByteString
 embedStr :: IO String -> ExpQ
 embedStr readStr = lift =<< runIO readStr
 
--- embedCSL :: IO String -> ExpQ
--- embedCSL readStr = lift =<< runIO readStr
-
 -- | Loads the content of a file as a string constant expression.
 -- The given path is relative to the source directory.
 fileAsString :: FilePath -> Q Exp
