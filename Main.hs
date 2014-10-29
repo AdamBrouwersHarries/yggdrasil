@@ -12,16 +12,19 @@ import Data.Aeson
 
 main :: IO ()
 main = do
-	m <- readBiblioFile "mybibdb.bib"
-	s <- readCSLFile "bibtex.csl"
-	--putStrLn $ unlines $ map (show) m
-	let result = processBibliography procOpts s m
-	let procAsBibtex = processBibliography procOpts s 
-	-- the following retains the order 
-	--let result = map (\r -> renderPlainStrict $ head $ procAsBibtex [r]) m
+	wdTest
+	rdTest
+--main = do
+--	m <- readBiblioFile "mybibdb.bib"
+--	s <- readCSLFile "bibtex.csl"
+--	--putStrLn $ unlines $ map (show) m
+--	let result = processBibliography procOpts s m
+--	let procAsBibtex = processBibliography procOpts s 
+--	-- the following retains the order 
+--	--let result = map (\r -> renderPlainStrict $ head $ procAsBibtex [r]) m
 
-	putStrLn $ foldl (\x y -> x++"\n\n\n\n\n"++y) "" $ map show $ (zip (map (show . refId) m) (map (renderPlainStrict) result))
-	mainLoop []
+--	putStrLn $ foldl (\x y -> x++"\n\n\n\n\n"++y) "" $ map show $ (zip (map (show . refId) m) (map (renderPlainStrict) result))
+--	mainLoop []
 
 showRefAsBibtex :: Reference -> ([Reference] -> [[FormattedOutput]]) -> String
 showRefAsBibtex r pf = renderPlainStrict $ head $ pf [r]

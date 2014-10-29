@@ -6,13 +6,13 @@ import Control.Monad
 import Control.Applicative
 import Text.ParserCombinators.Parsec
 
-main = do 
-	putStrLn $ show (FileVersion [1,2,3,4,5])
-	putStrLn $ show (sort [FileVersion [1,1,0], FileVersion [1,2,0], FileVersion [1,0,1]])
-	contents <- readVFFile "datastore.ds" (M.fromList [((FileVersion [0,1,1]), (lines))])
-	case contents of
-		Left e -> putStrLn e
-		Right d -> putStrLn $ show $ d
+--main = do 
+--	putStrLn $ show (FileVersion [1,2,3,4,5])
+--	putStrLn $ show (sort [FileVersion [1,1,0], FileVersion [1,2,0], FileVersion [1,0,1]])
+--	contents <- readVFFile "datastore.ds" (M.fromList [((FileVersion [0,1,1]), (lines))])
+--	case contents of
+--		Left e -> putStrLn e
+--		Right d -> putStrLn $ show $ d
 
 
 -- Define a file version type, to allow us to adequately index our parsing functions
