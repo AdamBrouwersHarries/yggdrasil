@@ -1,6 +1,6 @@
 module Main where
-
-import PaperDB as PDB
+import DB.PaperDef
+import DB.PaperDB as PDB
 import PaperParser as PP
 --import OptParser as OP
 

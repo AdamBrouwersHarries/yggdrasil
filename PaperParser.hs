@@ -5,7 +5,7 @@ import Control.Monad
 -- Small markdown library to parse the file
 import CMark
 -- the definition of an academic paper reading
-import PaperDB
+import DB.PaperDef
 
 --------------------------------------------------------------------------------
 ------------------- High level interface to load/parse papers ------------------
@@ -64,7 +64,7 @@ parseSections n@(Node l DOCUMENT nc) = do
             where 
                 isHeader :: Node -> Bool
                 -- only match on top level header!
-                isHeader (Node _ (HEADER 1) _) = True 
+                isHeader (Node _ (HEADING 1) _) = True 
                 -- fail on anything else
                 isHeader (Node _ _ _)          = False
     -- parse a section from a list of nodes
@@ -113,7 +113,7 @@ sectionAsCodeBlock (Section _ sn) =
 
 -- try to get the level and text from a header
 getHeaderData :: Node -> Either String (String, Int)
-getHeaderData n@(Node l (HEADER lv) (tn:sn)) = 
+getHeaderData n@(Node l (HEADING lv) (tn:sn)) = 
     case tn of
         Node _ (TEXT t) _ -> Right (unpack t, lv)
         _ -> Left ("No text in header node: " ++ (showNode n))
@@ -160,18 +160,20 @@ show' il (Node _ nt nc) = indent ++ nodeStr ++ " {\n" ++ childStr ++ indent ++ "
     nodeStr :: String 
     nodeStr = case nt of 
         DOCUMENT -> "DOCUMENT"
-        HRULE -> "HRULE"
+        THEMATIC_BREAK -> "THEMATIC_BREAK"
         PARAGRAPH -> "PARAGRAPH"
         BLOCK_QUOTE -> "BLOCK_QUOTE"
-        HTML t -> "HTML " ++ (unpack t)
+        HTML_BLOCK t -> "HTML_BLOCK " ++ (unpack t)
+        CUSTOM_BLOCK _ _ -> "CUSTOM_BLOCK"
         CODE_BLOCK _ t -> "CODE_BLOCK " ++ (unpack t)
-        HEADER l -> "HEADER " ++ (show l)
+        HEADING l -> "HEADING " ++ (show l)
         LIST _ -> "LIST: "
         ITEM -> "ITEM"
         TEXT t -> "TEXT " ++ (unpack t)
         SOFTBREAK -> "SOFTBREAK"
         LINEBREAK -> "LINEBREAK"
-        INLINE_HTML t -> "INLINE_HTML " ++ (unpack t)
+        HTML_INLINE t -> "HTML_INLINE " ++ (unpack t)
+        CUSTOM_INLINE _ _ -> "CUSTOM_INLINE"
         CODE t -> "CODE " ++ (unpack t)
         EMPH -> "EMPH"
         STRONG -> "STRONG"
