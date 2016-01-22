@@ -20,7 +20,7 @@ executable yggdrasil
   main-is:             Main.hs
   -- other-modules:       ReferenceDatabase.hs
   other-extensions:     TypeSynonymInstances, FlexibleInstances, RecursiveDo, RecordWildCards, CPP, ViewPatterns, PackageImports
-  build-depends:        base >=4.7 && <4.8, 
+  build-depends:        base, 
                         edit-distance, 
                         time, 
                         containers, 
@@ -30,7 +30,7 @@ executable yggdrasil
                         directory, 
                         parsec, 
                         transformers, 
-                        citation-resolve >= 0.4.3 && <0.5,
+                        citation-resolve,
                         citeproc-hs, 
                         either, 
                         mtl, 
