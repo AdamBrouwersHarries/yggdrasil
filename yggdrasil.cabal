@@ -43,6 +43,10 @@ executable yggdrasil
                         text,
                         cmark,
                         HDBC,
-                        HDBC-sqlite3
+                        HDBC-sqlite3,
+                        repline,
+                        transformers,
+                        process,
+                        haskeline
   -- hs-source-dirs:      
   default-language:    Haskell2010

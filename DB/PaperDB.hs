@@ -1,7 +1,8 @@
 module DB.PaperDB where
 import DB.PaperDef
 import YgUtil
-import Data.List
+import Data.List as L
+import Data.Set as S
 import Text.EditDistance
 import System.Directory
 import Database.HDBC 
@@ -20,6 +21,10 @@ import Database.HDBC.Sqlite3
 --        flatStrs t = (foldr (++) [] $ map (map fromSql) t) :: [String]
 --        levenstein str = (str, 
 --            fromIntegral $ levenshteinDistance defaultEditCosts ptitle str)
+
+data PaperDB = PaperDB {
+    dbconn :: Connection
+}
 
 addPaper :: Paper -> Connection -> IO ()
 addPaper p conn = do 
@@ -42,19 +47,19 @@ addPaper p conn = do
 getTitleIDs :: Connection -> IO [(Integer, String)]
 getTitleIDs conn = do
     results <- quickQuery' conn "SELECT id, title FORM papers;" []
-    return $ map parseRow results where
+    return $ L.map parseRow results where
         parseRow :: [SqlValue] -> (Integer, String)
         parseRow (id:title:[]) = (fromSql id, fromSql title) :: (Integer, String)
         parseRow _ = (-1,"Nothing")
 
-openDB :: FilePath -> IO Connection
+openDB :: FilePath -> IO (Maybe Connection)
 openDB dbname = do 
     dbExists <- doesFileExist dbname
-    if dbExists then
-        connectSqlite3 dbname
-    else do
-        putStrLn ("Database "++dbname++"doesn't exist, creating...")
-        createDB dbname
+    case dbExists of 
+        True -> do
+            conn <- connectSqlite3 dbname
+            return $ Just conn
+        False -> return Nothing
 
 createDB :: FilePath -> IO Connection
 createDB dbname = do
